@@ -1,0 +1,5 @@
+project(pong C)
+cmake_minimum_required(VERSION 3.0)
+add_executable(pong main.c output.c play.c)
+link_directories(/usr/lib)
+target_link_libraries(pong ncurses m)
