@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/leo/src/pong/main.c
+stdio.h
+-
+pong.h
+/home/leo/src/pong/pong.h
+
+/home/leo/src/pong/output.c
+pong.h
+/home/leo/src/pong/pong.h
+
+/home/leo/src/pong/play.c
+pong.h
+/home/leo/src/pong/pong.h
+math.h
+-
+
+/home/leo/src/pong/pong.h
+stdio.h
+-
+stdlib.h
+-
+curses.h
+-
+unistd.h
+-
+sys/types.h
+-
+time.h
+-
+float.h
+-
+
