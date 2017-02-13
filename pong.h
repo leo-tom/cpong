@@ -20,11 +20,11 @@ typedef struct{
     int size;
     location loc;
 }racket;
-public extern int flag;
-public extern int b_speed; /*speed of ball*/
-public extern int quickness;
-public extern int frequency;
-public extern double ball_direction;
+extern int flag;
+extern int b_speed; /*speed of ball*/
+extern int quickness;
+extern int frequency;
+extern double ball_direction;
 
 extern location w_size;
 extern racket me;
@@ -32,9 +32,9 @@ extern racket op;
 extern location ball;
 extern FILE *logfile;
 
-public extern void show_all();
-public extern void die();
-public extern void pong_main();
+extern void show_all();
+extern void die();
+extern void pong_main();
 
 #define FLAG_DEBUG 1 << 0
 

@@ -25,8 +25,9 @@ void init_field(){
     me.loc.x = 0;
     me.loc.y = center_y;
     op.loc.x = w_size.x -1;
-    op.loc.y = center_y - 1;
+    op.loc.y = center_y - 2;
     show_all();
+    srand(time(NULL));
 }
 /*Die if non zero is given*/
 void die(int val){
