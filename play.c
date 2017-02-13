@@ -26,7 +26,7 @@ private int think_and_move(int lose){
         if(val - op.size > 0){
             mv_closer();
         }else{
-            if(rand() % 2){
+            if(rand() % 20 > 17){
                 if(val == 0){
                     if(rand()%2)
                         op.loc.y--;
@@ -50,7 +50,7 @@ private double get_dir(racket *r){
     int i_abs;
     distance = ball.y - r->loc.y;
     abs_distance = fabs(distance); 
-    i_abs = (int)(abs_distance + 0.5f);
+    i_abs = (int)abs_distance;
     if(i_abs > r->size ){
         return NAN;
     }
@@ -65,10 +65,10 @@ private double get_dir(racket *r){
 }
 private void mv_me(int c){
     if(c == 'A'){
-        if(me.loc.y - me.size > 0)
+        if(me.loc.y > 0)
             me.loc.y--;
     }else{
-        if(me.loc.y + me.size < w_size.y-1)
+        if(me.loc.y < w_size.y-1)
             me.loc.y++;
     }
 }
@@ -77,11 +77,10 @@ void pong_main(){
     int frequency_val = frequency;
     struct timespec sleep_t;
     sleep_t.tv_sec = 0;
-    sleep_t.tv_nsec = quickness;
+    sleep_t.tv_nsec = QUICKNESS;
     bool v_changed = false; /*value changed*/
     ball_direction = 0.0f;
     double dval;
-    int difficulty = 5;
     int t_m_val = (30-difficulty)*10; /*think and move value*/
     timeout(0);
     int c;
@@ -97,6 +96,9 @@ void pong_main(){
                 dval = get_dir(&me);
                 if(isnan(dval)){
                     show_all();
+                    show_string("You lost..",w_size.y/2);
+                    show_string("hit enter to exit",w_size.y/2 + 2);
+                    getchar();
                     die(1);
                 }
                 ball_direction = dval * -1.0f;
@@ -107,6 +109,9 @@ void pong_main(){
                 if(isnan(dval) ){
                     /*won*/
                     show_all();
+                    show_string("You won!",w_size.y/2);
+                    show_string("hit enter to exit",w_size.y/2+2);
+                    getchar();
                     die(1);
                 }
                 ball_direction = dval;

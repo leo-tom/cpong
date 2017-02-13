@@ -8,9 +8,11 @@
 #include <sys/types.h>
 #include <time.h>
 #include <float.h>
+#include <string.h>
 /*public and private do not have actuall means. just a memo*/
 #define private
 #define public
+#define QUICKNESS 900000
 
 typedef struct{
 	int x;
@@ -26,9 +28,9 @@ typedef struct{
 }racket;
 extern int flag;
 extern double b_speed; /*speed of ball*/
-extern int quickness;
 extern int frequency;
 extern double ball_direction;
+extern int difficulty;
 
 extern location w_size;
 extern racket me;
@@ -39,6 +41,7 @@ extern FILE *logfile;
 extern void show_all();
 extern void die();
 extern void pong_main();
+extern void show_string(char *,int y);
 
 #define FLAG_DEBUG 1 << 0
 

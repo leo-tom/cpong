@@ -1,3 +1,0 @@
-/home/leo/src/pong/CMakeFiles/rebuild_cache.dir
-/home/leo/src/pong/CMakeFiles/edit_cache.dir
-/home/leo/src/pong/CMakeFiles/pong.dir

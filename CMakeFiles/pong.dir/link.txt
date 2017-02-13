@@ -1,1 +1,0 @@
-/usr/bin/cc     CMakeFiles/pong.dir/main.c.o CMakeFiles/pong.dir/output.c.o CMakeFiles/pong.dir/play.c.o  -o pong  -lncurses -lm 

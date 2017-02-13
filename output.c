@@ -7,6 +7,17 @@ void set_char(int x,int y,char ch){
 	delch();
 	insch(ch);
 }
+void show_string(char *str,int y){
+    int len = strlen(str);
+    int x = w_size.x / 2;
+    x -= len/2;
+    int i;
+    for(i = 0;i<len;i++){
+        set_char(x++,y,str[i]);
+    }
+    move(0,0);
+    refresh();
+}
 void move_racket(racket *ptr,int ny){
     if(ny - ptr->size / 2 < 0 || ny + ptr->size / 2 > w_size.y){
         return;

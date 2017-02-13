@@ -56,6 +56,50 @@ CMAKE_BINARY_DIR = /home/leo/src/pong
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/local/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: install/local
+
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/local/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+
+.PHONY : install/strip/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/local/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/local/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -111,17 +155,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named pong
+# Target rules for targets named cpong
 
 # Build rule for target.
-pong: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pong
-.PHONY : pong
+cpong: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cpong
+.PHONY : cpong
 
 # fast build rule for target.
-pong/fast:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/build
-.PHONY : pong/fast
+cpong/fast:
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/build
+.PHONY : cpong/fast
 
 main.o: main.c.o
 
@@ -129,7 +173,7 @@ main.o: main.c.o
 
 # target to build an object file
 main.c.o:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/main.c.o
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/main.c.o
 .PHONY : main.c.o
 
 main.i: main.c.i
@@ -138,7 +182,7 @@ main.i: main.c.i
 
 # target to preprocess a source file
 main.c.i:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/main.c.i
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/main.c.i
 .PHONY : main.c.i
 
 main.s: main.c.s
@@ -147,7 +191,7 @@ main.s: main.c.s
 
 # target to generate assembly for a file
 main.c.s:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/main.c.s
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/main.c.s
 .PHONY : main.c.s
 
 output.o: output.c.o
@@ -156,7 +200,7 @@ output.o: output.c.o
 
 # target to build an object file
 output.c.o:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/output.c.o
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/output.c.o
 .PHONY : output.c.o
 
 output.i: output.c.i
@@ -165,7 +209,7 @@ output.i: output.c.i
 
 # target to preprocess a source file
 output.c.i:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/output.c.i
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/output.c.i
 .PHONY : output.c.i
 
 output.s: output.c.s
@@ -174,7 +218,7 @@ output.s: output.c.s
 
 # target to generate assembly for a file
 output.c.s:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/output.c.s
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/output.c.s
 .PHONY : output.c.s
 
 play.o: play.c.o
@@ -183,7 +227,7 @@ play.o: play.c.o
 
 # target to build an object file
 play.c.o:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/play.c.o
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/play.c.o
 .PHONY : play.c.o
 
 play.i: play.c.i
@@ -192,7 +236,7 @@ play.i: play.c.i
 
 # target to preprocess a source file
 play.c.i:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/play.c.i
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/play.c.i
 .PHONY : play.c.i
 
 play.s: play.c.s
@@ -201,7 +245,7 @@ play.s: play.c.s
 
 # target to generate assembly for a file
 play.c.s:
-	$(MAKE) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/play.c.s
+	$(MAKE) -f CMakeFiles/cpong.dir/build.make CMakeFiles/cpong.dir/play.c.s
 .PHONY : play.c.s
 
 # Help Target
@@ -210,9 +254,13 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... install"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... pong"
+	@echo "... cpong"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
