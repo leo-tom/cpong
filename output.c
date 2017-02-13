@@ -1,7 +1,7 @@
 #include "pong.h"
 racket me;
 racket op; /*oppornent*/
-location ball;
+dlocation ball;
 void set_char(int x,int y,char ch){
 	move(y,x);
 	delch();

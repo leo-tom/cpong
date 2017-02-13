@@ -1,82 +1,75 @@
 #include "pong.h"
 #include <math.h>
+#include <errno.h>
 public double ball_direction;
 /*return non-zero when something had been changed*/
-int think_and_move(){
+private void mv_closer(){
     int val = ball.y - op.loc.y;
     if(val > 0){
-        if(val > op.size){
-            op.loc.y++;
-        }else if(op.size - val){
-            val = rand() % 3;
-            if(val == 1){
-                op.loc.y--;
-            }else if(val == 2){
-                op.loc.y++;
-            }else{
-                return 0;
-            }
-        }else{
-            if(rand() % 2){
-                op.loc.y++;
-            }else{
-                return 0;
-            }
-        }
+        op.loc.y++;
     }else if(val < 0){
-        val = abs(val);
-        if(val > op.size){
-            op.loc.y--;
-        }else if(op.size - val){
-            val = rand() % 3;
-            if(val == 1){
-                op.loc.y++;
-            }else if(val == 2){
-                op.loc.y--;
-            }else{
+        op.loc.y--;
+    }
+}
+private int think_and_move(int lose){
+    int val = abs(ball.y - op.loc.y);
+    if(lose <= 0){
+        /*try to lose*/
+        if((val - op.size) > 0){
+            if((val - op.size) == 1){
                 return 0;
-            }
-        }else{
-            if(rand() % 2){
-                op.loc.y--;
             }else{
-                return 0;
+                mv_closer();
             }
         }
     }else{
-        val = rand() % 3;
-        if(val == 1){
-            op.loc.y--;
-        }else if(val == 2){
-            op.loc.y++;
+        if(val - op.size > 0){
+            mv_closer();
         }else{
-            return 0;
+            if(rand() % 2){
+                if(val == 0){
+                    if(rand()%2)
+                        op.loc.y--;
+                    else
+                        op.loc.y++;
+                }else{
+                    mv_closer();
+                }
+            }else{
+                return 0;
+            }
         }
     }
     return 1;
 }
-double get_dir(racket *r){
+/*Returns NAN when ball did not hit racket*/
+private double get_dir(racket *r){
     double distance;
     double abs_distance;
     double radi;
+    int i_abs;
     distance = ball.y - r->loc.y;
     abs_distance = fabs(distance); 
-    if(((int)abs_distance) > r->size ){
+    i_abs = (int)(abs_distance + 0.5f);
+    if(i_abs > r->size ){
         return NAN;
+    }
+    if(i_abs == 0){
+        return 0;
     }
     radi = (M_PI_2*(abs_distance/r->size)*(1.0f/4.0f));
     if(distance > 0.0f){
-        radi = radi * -1;
+        radi = 0.0f - radi;
     }
     return radi;
 }
 private void mv_me(int c){
-    if(c == KEY_UP){
-        if(me.loc.y > 0)
+    if(c == 'A'){
+        if(me.loc.y - me.size > 0)
             me.loc.y--;
     }else{
-        if(me.loc.y < w_size.y-1)
-            me.loc.y--;
+        if(me.loc.y + me.size < w_size.y-1)
+            me.loc.y++;
     }
 }
 
@@ -88,64 +81,60 @@ void pong_main(){
     bool v_changed = false; /*value changed*/
     ball_direction = 0.0f;
     double dval;
-    int difficulty = 1;
-    int t_m_val = (20-difficulty)*10; /*think and move value*/
-
-    int s_return;
-    struct timeval timei = {0};
-    fd_set fds;
-    FD_ZERO(&fds);
-    FD_SET(0,&fds);
+    int difficulty = 5;
+    int t_m_val = (30-difficulty)*10; /*think and move value*/
+    timeout(0);
+    int c;
+    int speed_up = (20 - difficulty)*10;
+    int lose_in = (difficulty + 1) * 3;
     while(1){
         if(frequency_val <= 0){
             frequency_val = frequency;
             ball.x += b_speed * cos(ball_direction);
             ball.y += b_speed * sin(ball_direction);
             v_changed = true;
-            if(ball.x <= 1.0f && b_speed < 0){
+            if(ball.x <= 0.0f && b_speed < 0){
                 dval = get_dir(&me);
                 if(isnan(dval)){
+                    show_all();
                     die(1);
                 }
-                ball_direction = dval;
+                ball_direction = dval * -1.0f;
                 b_speed *= -1.0f;
-            }else if(ball.x >= w_size.x - 2.0f && b_speed > 0){
+            }else if(ball.x >= w_size.x - 1.0f && b_speed > 0){
+                /*oppornet is hitting back*/
                 dval = get_dir(&op);
                 if(isnan(dval) ){
                     /*won*/
+                    show_all();
                     die(1);
                 }
                 ball_direction = dval;
                 b_speed *= -1.0f;
+                lose_in--;
             }
             if(ball.y <= 0){
                 ball_direction *= -1.0f;
             }else if(ball.y >= w_size.y){
                 ball_direction *= -1.0f;
             }
+            speed_up--;
+            if(speed_up <= 0){
+                b_speed += (b_speed < 0.0f) ? -0.1f : 0.1f;
+                speed_up = (20 - difficulty)*50;
+            }
         }
-        timei.tv_sec = 0;
-        timei.tv_usec = 0;
-        if((s_return = select(1,&fds,NULL,NULL,&timei)) < 0){
-            fprintf(stderr,"error at select system call\n");
-            die(1);
-        }else if(s_return > 0){
-            int c;
-            fprintf(stderr,"here");
-            while(s_return > 0){
-                c = getch();
-                if(c==KEY_UP || c == KEY_DOWN){
+        c = getch();
+        if(c == '\033')
+            if(getch() == '[')
+                if((c = getch()) == 'A' || c == 'B'){
                     mv_me(c);
                     v_changed = true;
                 }
-                s_return--;
-            }
-        }else
-            fprintf(stderr,"no");
         if(t_m_val <= 0){
-            if(think_and_move())
+            if(think_and_move(lose_in))
                 v_changed = true;
-            t_m_val = (20-difficulty)*10;
+            t_m_val = (30-difficulty)*10;
         }
         t_m_val-= difficulty;
         if(v_changed){

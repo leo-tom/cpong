@@ -21,6 +21,8 @@ pong.h
 /home/leo/src/pong/pong.h
 math.h
 -
+errno.h
+-
 
 /home/leo/src/pong/pong.h
 stdio.h

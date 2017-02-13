@@ -13,15 +13,19 @@
 #define public
 
 typedef struct{
-	double x;
-	double y;
+	int x;
+	int y;
 }location;
+typedef struct{
+    double x;
+    double y;
+}dlocation;
 typedef struct{
     int size;
     location loc;
 }racket;
 extern int flag;
-extern int b_speed; /*speed of ball*/
+extern double b_speed; /*speed of ball*/
 extern int quickness;
 extern int frequency;
 extern double ball_direction;
@@ -29,7 +33,7 @@ extern double ball_direction;
 extern location w_size;
 extern racket me;
 extern racket op;
-extern location ball;
+extern dlocation ball;
 extern FILE *logfile;
 
 extern void show_all();

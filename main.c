@@ -9,7 +9,7 @@ private extern void del_log();
 private extern void open_log();
 
 public int flag;
-public int b_speed = 1;
+public double b_speed = 1;
 public int quickness = 900000;
 public int frequency = 50;
 
