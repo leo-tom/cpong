@@ -14,7 +14,7 @@ public int frequency = 50;
 public int difficulty = 3;
 
 private const char AVALIABLE_ARGS[] = "l:";
-private const char USAGE_STR[] = 
+private const char USAGE_STR[] =
 "pong [-l level]\nvalue of level only can be 1 to 10\n";
 
 
@@ -53,6 +53,9 @@ private void show_title(){
     show_string("Hit enter to start game",w_size.y / 2 + 1);
     show_string("Copyright (c) 2017, Reo Tomura",w_size.y/2+5);
 }
+private void show_version(){
+    fprintf(stderr, "1.1\n");
+}
 int main(int argc,char *argv[]){
     int c;
     int i = 1;
@@ -62,6 +65,9 @@ int main(int argc,char *argv[]){
                 /*level*/
                 difficulty = atoi(argv[i+1]);
                 break;
+            case 'v'
+                show_version();
+                return 0;
             case '?':
             default:
                 usage();

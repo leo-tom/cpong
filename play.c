@@ -26,7 +26,7 @@ private int think_and_move(int lose){
         if(val - op.size > 0){
             mv_closer();
         }else{
-            if(rand() % 20 > 17){
+            if(rand() % 40 > 38){
                 if(val == 0){
                     if(rand()%2)
                         op.loc.y--;
@@ -49,14 +49,15 @@ private double get_dir(racket *r){
     double radi;
     int i_abs;
     distance = ball.y - r->loc.y;
-    abs_distance = fabs(distance); 
+    abs_distance = fabs(distance);
     i_abs = (int)abs_distance;
     if(i_abs > r->size ){
         return NAN;
     }
+    /*
     if(i_abs == 0){
         return 0;
-    }
+    }*/
     radi = (M_PI_2*(abs_distance/r->size)*(1.0f/4.0f));
     if(distance > 0.0f){
         radi = 0.0f - radi;
@@ -81,17 +82,19 @@ void pong_main(){
     bool v_changed = false; /*value changed*/
     ball_direction = 0.0f;
     double dval;
-    int t_m_val = (30-difficulty)*10; /*think and move value*/
+    int t_m_val = (15-difficulty)*5; /*think and move value*/
     timeout(0);
     int c;
     int speed_up = (20 - difficulty)*10;
-    int lose_in = (difficulty + 1) * 3;
+    int lose_in = (difficulty + 1) * 2;
     while(1){
         if(frequency_val <= 0){
             frequency_val = frequency;
             ball.x += b_speed * cos(ball_direction);
             ball.y += b_speed * sin(ball_direction);
             v_changed = true;
+            if(think_and_move(lose_in))
+                v_changed = true;
             if(ball.x <= 0.0f && b_speed < 0){
                 dval = get_dir(&me);
                 if(isnan(dval)){
@@ -139,7 +142,7 @@ void pong_main(){
         if(t_m_val <= 0){
             if(think_and_move(lose_in))
                 v_changed = true;
-            t_m_val = (30-difficulty)*10;
+            t_m_val = (15-difficulty)*5;
         }
         t_m_val-= difficulty;
         if(v_changed){
@@ -150,5 +153,3 @@ void pong_main(){
         frequency_val--;
     }
 }
-
-
