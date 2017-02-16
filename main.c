@@ -65,7 +65,7 @@ int main(int argc,char *argv[]){
                 /*level*/
                 difficulty = atoi(argv[i+1]);
                 break;
-            case 'v'
+            case 'v':
                 show_version();
                 return 0;
             case '?':
