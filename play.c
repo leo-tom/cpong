@@ -93,8 +93,9 @@ void pong_main(){
             ball.x += b_speed * cos(ball_direction);
             ball.y += b_speed * sin(ball_direction);
             v_changed = true;
-            if(think_and_move(lose_in))
-                v_changed = true;
+            if(rand()%2)
+                if(think_and_move(lose_in))
+                    v_changed = true;
             if(ball.x <= 0.0f && b_speed < 0){
                 dval = get_dir(&me);
                 if(isnan(dval)){
